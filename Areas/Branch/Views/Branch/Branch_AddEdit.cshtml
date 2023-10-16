@@ -1,0 +1,48 @@
+﻿@model MVC_Project.Areas.Branch.Models.BranchModel
+@{
+    Layout = "~/Views/shared/_Layout.cshtml";
+}
+<main class="main" id="main">
+
+    <div class="d-flex flex-column">
+
+        <form>
+            @Html.HiddenFor(x => x.BranchID)
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="mt-3 mb-3">
+                <h2>Branch Add / Update Page</h2>
+            </div>
+            <div class="mb-3 row form-group">
+                <label class="col-sm-2 col-form-label">Branch Name</label>
+                <div class="col-xl-4">
+                    <input type="text" class="form-control" asp-for="BranchName" />
+                    <span asp-validation-for="BranchName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label class="col-sm-2 col-form-label">Branch Code</label>
+                <div class="col-xl-4">
+                    <input type="text" class="form-control" asp-for="BranchCode" />
+                    <span asp-validation-for="BranchCode" class="text-danger"></span>
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-success" type="submit" asp-area="Branch" asp-controller="Branch" asp-action="Save">Add</button>
+                <a class="btn btn-primary" asp-area="Branch" asp-controller="Branch" asp-action="BranchList">Back</a>
+            </div>
+        </form>
+
+
+    </div>
+</main>
+
+
+
+
+
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

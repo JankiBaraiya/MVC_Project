@@ -1,0 +1,106 @@
+﻿@{
+    Layout = "~/Views/shared/_Layout.cshtml";
+}
+@using System.Data;
+@model DataTable;
+
+<main class="main" id="main">
+    <div class="body">
+
+        <h3 class="text-success">
+            @TempData["Message"]
+
+        </h3>
+        <div class="card">
+            <h4 class="card-header">Search</h4>
+            <div class="card-body">
+
+                <form asp-area="Branch" asp-controller="Branch">
+                    <div class="row">
+                        <input type="text" class="form-control m-2 col" name="BranchName" placeholder="BranchName" />
+                        <input type="text" class="form-control m-2 col" name="BranchCode" placeholder="BranchCode" />
+                        <span class="col"></span>
+                        <span class="col"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-2" asp-action="Filtter"> Search </button>
+                    <button type="submit" class="btn btn-danger mt-2" runat="server" OnClientClick="this.form.reset();return false;">Clear</button>
+                </form>
+            </div>
+        </div>
+ 
+
+        <div class="card">
+            <h3 class="card-header">Branch List</h3>
+            <div class="m-3">
+                <a type="button" class="btn btn-success " asp-area="Branch" asp-action="Branch_AddEdit" asp-controller="Branch">Add new Branch</a>
+            </div>
+            <div class="card-body ">
+                <div class="table-responsive">
+
+        <table class="table mt-3">
+            <thead>
+                <tr>
+                    <th scope="col">Branch Name</th>
+                    <th scope="col">Branch Code</th>
+                    <th scope="col">Created</th>
+                    <th scope="col">Modified</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody id="sample_2">
+                @foreach (DataRow dr in Model.Rows)
+                {
+                    <tr>
+                        <td>@dr["BranchName"]</td>
+                        <td>@dr["BranchCode"]</td>
+                        <td>@Convert.ToDateTime(dr["Created"]).ToString("dd-MM-yyyy")</td>
+                        <td>@Convert.ToDateTime(dr["Modified"]).ToString("dd-MM-yyyy")</td>
+                        <td>
+                            <div class="d-flex">
+                                <div class="me-2">
+                                    <form method="post" asp-area="Branch" asp-controller="Branch" asp-action="Delete">
+                                        <input type="hidden" value="@Convert.ToInt32(dr["BranchID"])" name="BranchID" />
+                                        <button type="submit" class="btn btn-danger" value="Delete" onclick="fun1()"><i class="bi bi-trash"></i></button>
+                                    </form>
+                                </div>
+                                <div class="ms-2">
+                                    <form asp-area="Branch" asp-controller="Branch" asp-action="Branch_AddEdit">
+                                        <input type="hidden" value="@Convert.ToInt32(dr["BranchID"])" name="BranchID" />
+                                        <button type="submit" class="btn btn-info" value="Update"><i class="bi bi-pencil-square"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        
+        </div>
+        </div>
+    </div>
+</main>
+
+
+
+@section Scripts
+    {
+    @*@{*@
+    <script>
+        function fun1() {
+
+
+            if (confirm("are you sure to delete this record??")) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+    </script>
+    @*await Html.RenderPartialAsync("_ValidationScriptsPartial");*@
+
+    @*}*@
+
+}
